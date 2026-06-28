@@ -24,36 +24,19 @@ const TaskList = ({ tasks, loading, onEdit, onDelete, onStatusUpdate }) => {
     );
   }
 
-  const columns = ['Pending', 'In Progress', 'Completed'];
-
   return (
-    <div className="kanban-board">
-      {columns.map(status => {
-        const columnTasks = tasks.filter(t => t.status === status);
-        
-        return (
-          <div key={status} className="kanban-column">
-            <h3 className="kanban-column-title">
-              {status}
-              <span className="count">{columnTasks.length}</span>
-            </h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <AnimatePresence>
-                {columnTasks.map(task => (
-                  <TaskItem
-                    key={task._id}
-                    task={task}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    onStatusUpdate={onStatusUpdate}
-                  />
-                ))}
-              </AnimatePresence>
-            </div>
-          </div>
-        );
-      })}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '800px', margin: '0 auto' }}>
+      <AnimatePresence>
+        {tasks.map(task => (
+          <TaskItem
+            key={task._id}
+            task={task}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onStatusUpdate={onStatusUpdate}
+          />
+        ))}
+      </AnimatePresence>
     </div>
   );
 };
