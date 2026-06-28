@@ -101,25 +101,24 @@ function App() {
       </header>
 
       <div className="controls-bar glass" style={{ padding: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <Filter size={20} style={{ color: 'var(--primary)' }} />
-          <span style={{ fontWeight: 500, marginRight: '1rem' }}>Filters:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <Filter size={18} style={{ color: 'rgba(255,255,255,0.5)', marginRight: '0.5rem' }} />
           
-          <select name="status" className="form-input" style={{ width: 'auto', padding: '0.5rem' }} value={filters.status} onChange={handleFilterChange}>
+          <select name="status" className="filter-select" value={filters.status} onChange={handleFilterChange}>
             <option value="All">All Status</option>
             <option value="Pending">Pending</option>
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
           </select>
 
-          <select name="priority" className="form-input" style={{ width: 'auto', padding: '0.5rem' }} value={filters.priority} onChange={handleFilterChange}>
+          <select name="priority" className="filter-select" value={filters.priority} onChange={handleFilterChange}>
             <option value="All">All Priorities</option>
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
             <option value="High">High</option>
           </select>
 
-          <select name="sortBy" className="form-input" style={{ width: 'auto', padding: '0.5rem', marginLeft: 'auto' }} value={filters.sortBy} onChange={handleFilterChange}>
+          <select name="sortBy" className="filter-select" style={{ marginLeft: 'auto' }} value={filters.sortBy} onChange={handleFilterChange}>
             <option value="createdAt">Newest First</option>
             <option value="priority">Priority</option>
             <option value="dueDate">Due Date</option>
