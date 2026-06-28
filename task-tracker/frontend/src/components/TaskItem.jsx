@@ -169,7 +169,7 @@ const TaskItem = ({ task, onEdit, onDelete, onStatusUpdate }) => {
               </span>
               {task.dueDate && (
                 <span className="badge" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', background: 'rgba(255,255,255,0.1)' }}>
-                  <Calendar size={12} /> {format(new Date(task.dueDate), 'MMM dd, yyyy')}
+                  <Calendar size={12} /> {format(new Date(task.dueDate), 'MMM dd, yyyy h:mm a')}
                 </span>
               )}
             </div>
