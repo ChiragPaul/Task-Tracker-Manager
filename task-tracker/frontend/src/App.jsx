@@ -82,6 +82,15 @@ function App() {
     }
   };
 
+  const handleStatusUpdate = async (id, taskData) => {
+    try {
+      await updateTask(id, taskData);
+      loadTasks();
+    } catch (error) {
+      showNotification('Failed to update task status', 'error');
+    }
+  };
+
   return (
     <div className="app-container">
       <header className="header">
@@ -124,6 +133,7 @@ function App() {
           loading={loading}
           onEdit={handleOpenForm}
           onDelete={handleDelete}
+          onStatusUpdate={handleStatusUpdate}
         />
       </main>
 

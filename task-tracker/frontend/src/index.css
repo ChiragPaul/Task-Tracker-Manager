@@ -77,6 +77,72 @@ input, select, textarea, button {
   animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Strikethrough Animation */
+.strikethrough {
+  position: relative;
+  display: inline-block;
+}
+
+.strikethrough::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  background: var(--text-color);
+  width: 0%;
+  transition: width 0.4s ease-out;
+}
+
+.strikethrough.active::after {
+  width: 100%;
+}
+
+.task-completed-fade {
+  opacity: 0.6;
+  transition: opacity 0.4s ease-out;
+}
+
+/* Kanban Board Layout */
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.kanban-column {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 16px;
+  padding: 1rem;
+  min-height: 500px;
+  border: 1px dashed var(--glass-border);
+}
+
+.kanban-column-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kanban-column-title .count {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.1rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Shared Button Styles */
 .btn {
   display: inline-flex;

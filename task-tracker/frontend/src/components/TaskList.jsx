@@ -1,8 +1,9 @@
 import React from 'react';
 import TaskItem from './TaskItem';
 import { Loader2 } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 
-const TaskList = ({ tasks, loading, onEdit, onDelete }) => {
+const TaskList = ({ tasks, loading, onEdit, onDelete, onStatusUpdate }) => {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px', width: '100%' }}>
@@ -23,16 +24,36 @@ const TaskList = ({ tasks, loading, onEdit, onDelete }) => {
     );
   }
 
+  const columns = ['Pending', 'In Progress', 'Completed'];
+
   return (
-    <div className="task-grid">
-      {tasks.map(task => (
-        <TaskItem
-          key={task._id}
-          task={task}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      ))}
+    <div className="kanban-board">
+      {columns.map(status => {
+        const columnTasks = tasks.filter(t => t.status === status);
+        
+        return (
+          <div key={status} className="kanban-column">
+            <h3 className="kanban-column-title">
+              {status}
+              <span className="count">{columnTasks.length}</span>
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <AnimatePresence>
+                {columnTasks.map(task => (
+                  <TaskItem
+                    key={task._id}
+                    task={task}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    onStatusUpdate={onStatusUpdate}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
