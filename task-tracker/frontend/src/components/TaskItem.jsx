@@ -116,6 +116,8 @@ const TaskItem = ({ task, onEdit, onDelete, onStatusUpdate }) => {
             {task.status === 'Completed' || isCompleting ? <CheckCircle2 size={24} /> : <Circle size={24} />}
           </button>
           
+          <div className={`priority-dot ${task.priority === 'Low' ? 'dot-low' : task.priority === 'Medium' ? 'dot-medium' : 'dot-high'}`} title={`${task.priority} Priority`} />
+          
           <h3 className={`strikethrough ${task.status === 'Completed' || isCompleting ? 'active' : ''}`} style={{ fontSize: '1.1rem', margin: 0, wordBreak: 'break-word', color: task.status === 'Completed' || isCompleting ? 'rgba(255,255,255,0.5)' : 'inherit' }}>
             {task.title}
           </h3>

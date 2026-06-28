@@ -16,7 +16,7 @@ const TaskForm = ({ initialData, onSubmit, onCancel }) => {
     if (initialData) {
       setFormData({
         ...initialData,
-        dueDate: initialData.dueDate ? new Date(initialData.dueDate).toISOString().split('T')[0] : '',
+        dueDate: initialData.dueDate ? new Date(initialData.dueDate).toISOString().slice(0, 16) : '',
       });
     }
   }, [initialData]);
@@ -115,11 +115,11 @@ const TaskForm = ({ initialData, onSubmit, onCancel }) => {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="dueDate">Due Date</label>
+            <label className="form-label" htmlFor="dueDate">Due Date & Time</label>
             <input
               id="dueDate"
               name="dueDate"
-              type="date"
+              type="datetime-local"
               className="form-input"
               value={formData.dueDate}
               onChange={handleChange}
