@@ -15,7 +15,7 @@ const TaskList = ({ tasks, loading, onEdit, onDelete, onStatusUpdate }) => {
     );
   }
 
-  if (!tasks || tasks.length === 0) {
+  if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
     return (
       <div className="glass" style={{ padding: '3rem', textAlign: 'center', gridColumn: '1 / -1' }}>
         <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>No tasks found</h3>

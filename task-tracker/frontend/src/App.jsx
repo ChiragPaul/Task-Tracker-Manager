@@ -28,9 +28,14 @@ function App() {
     setLoading(true);
     try {
       const data = await fetchTasks(filters);
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid API response');
+      }
       setTasks(data);
     } catch (error) {
-      showNotification('Failed to load tasks', 'error');
+      console.error(error);
+      setTasks([]);
+      showNotification('Failed to load tasks - Please check backend URL', 'error');
     } finally {
       setLoading(false);
     }
