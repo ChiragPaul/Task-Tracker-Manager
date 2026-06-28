@@ -303,3 +303,48 @@ input, select, textarea, button {
 .dot-low { color: var(--priority-low); background-color: var(--priority-low); }
 .dot-medium { color: var(--priority-medium); background-color: var(--priority-medium); }
 .dot-high { color: var(--priority-high); background-color: var(--priority-high); }
+
+/* Notification Center */
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--danger);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  transform: translate(25%, -25%);
+  box-shadow: 0 0 8px var(--danger);
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  width: 280px;
+  z-index: 100;
+  animation: slideIn 0.2s ease-out;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}

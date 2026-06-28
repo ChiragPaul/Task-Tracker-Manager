@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Plus, Filter } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Plus, Filter, Bell, AlertCircle, Clock } from 'lucide-react';
 import { fetchTasks, createTask, updateTask, deleteTask } from './api/api';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
@@ -11,6 +11,34 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsNotificationsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Compute notifications dynamically
+  const notifications = tasks.reduce((acc, task) => {
+    if (task.status === 'Completed' || !task.dueDate) return acc;
+    const now = new Date();
+    const dueDate = new Date(task.dueDate);
+    const diffTime = dueDate - now;
+    
+    if (diffTime < 0) {
+      acc.push({ id: task._id, title: task.title, type: 'overdue', message: 'Overdue!' });
+    } else if (diffTime < 24 * 60 * 60 * 1000) {
+      acc.push({ id: task._id, title: task.title, type: 'soon', message: 'Due Soon' });
+    }
+    return acc;
+  }, []);
   
   const [filters, setFilters] = useState({
     status: 'All',
@@ -100,9 +128,50 @@ function App() {
     <div className="app-container">
       <header className="header">
         <h1>Task Tracker</h1>
-        <button className="btn btn-primary" onClick={() => handleOpenForm()}>
-          <Plus size={20} /> New Task
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          
+          {/* Notification Bell */}
+          <div ref={dropdownRef} style={{ position: 'relative' }}>
+            <button className="btn-icon" onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} style={{ position: 'relative' }}>
+              <Bell size={20} />
+              {notifications.length > 0 && (
+                <span className="notification-badge">
+                  {notifications.length}
+                </span>
+              )}
+            </button>
+            
+            {/* Dropdown Menu */}
+            {isNotificationsOpen && (
+              <div className="notification-dropdown glass">
+                <h4 style={{ padding: '1rem', borderBottom: '1px solid var(--glass-border)', margin: 0 }}>Notifications</h4>
+                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  {notifications.length === 0 ? (
+                    <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'rgba(255,255,255,0.5)' }}>
+                      No active alerts
+                    </div>
+                  ) : (
+                    notifications.map(notif => (
+                      <div key={notif.id} className="notification-item">
+                        {notif.type === 'overdue' ? <AlertCircle size={16} color="var(--danger)" /> : <Clock size={16} color="var(--priority-medium)" />}
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{notif.title}</span>
+                          <span style={{ fontSize: '0.75rem', color: notif.type === 'overdue' ? 'var(--danger)' : 'var(--priority-medium)' }}>
+                            {notif.message}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button className="btn btn-primary" onClick={() => handleOpenForm()}>
+            <Plus size={20} /> New Task
+          </button>
+        </div>
       </header>
 
       <div className="controls-bar glass" style={{ padding: '1rem' }}>
